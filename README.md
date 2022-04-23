@@ -1,6 +1,5 @@
 # teamProfile
 
-```md
 AS A manager
 I WANT to generate a webpage that displays my team's basic info. SO THAT I have quick access to their emails and GitHub profiles
 
@@ -57,6 +56,8 @@ The following image shows a mock-up of the generated HTML’s appearance and fun
 ## Getting Started
 
 This homework will combine many of the skills we've covered so far. In addition to the User Story and Acceptance Criteria, we’ve provided some guidelines to help get started.
+
 ```
 
 It is recommended that you start with a directory structure that looks like the following example:
+```
