@@ -1,9 +1,13 @@
-// create the team
-const generateTeam = team => {
+const Employee = require("../lib/Employee");
+const Manager = require("../lib/Manager");
+const Engineer = require("../lib/Engineer");
+const Intern = require("../lib/Intern");
 
-    // create the manager html
-    const generateManager = manager => {
-        return `
+// create the team
+const generateTeam = (team) => {
+  // create the manager html
+  const generateManager = (manager) => {
+    return `
         <div class="card employee-card">
         <div class="card-header">
             <h2 class="card-title">${manager.getName()}</h2>
@@ -18,11 +22,11 @@ const generateTeam = team => {
         </div>
     </div>
         `;
-    };
+  };
 
-    // create the html for engineers
-    const generateEngineer = engineer => {
-        return `
+  // create the html for engineers
+  const generateEngineer = (engineer) => {
+    return `
         <div class="card employee-card">
     <div class="card-header">
         <h2 class="card-title">${engineer.getName()}</h2>
@@ -37,11 +41,11 @@ const generateTeam = team => {
     </div>
 </div>
         `;
-    };
+  };
 
-    // create the html for interns
-    const generateIntern = intern => {
-        return `
+  // create the html for interns
+  const generateIntern = (intern) => {
+    return `
         <div class="card employee-card">
     <div class="card-header">
         <h2 class="card-title">${intern.getName()}</h2>
@@ -56,33 +60,34 @@ const generateTeam = team => {
     </div>
 </div>
         `;
-    };
+  };
 
-    const html = [];
+  const html = [];
 
-    html.push(team
-        .filter(employee => employee.getRole() === "Manager")
-        .map(manager => generateManager(manager))
-    );
-    html.push(team
-        .filter(employee => employee.getRole() === "Engineer")
-        .map(engineer => generateEngineer(engineer))
-        .join("")
-    );
-    html.push(team
-        .filter(employee => employee.getRole() === "Intern")
-        .map(intern => generateIntern(intern))
-        .join("")
-    );
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Manager")
+      .map((manager) => generateManager(manager))
+  );
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Engineer")
+      .map((engineer) => generateEngineer(engineer))
+      .join("")
+  );
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Intern")
+      .map((intern) => generateIntern(intern))
+      .join("")
+  );
 
-    return html.join("");
-
-}
+  return html.join("");
+};
 
 // export function to generate entire page
-module.exports = team => {
-
-    return `
+module.exports = (team) => {
+  return `
     <!DOCTYPE html>
 <html lang="en">
 
@@ -100,8 +105,8 @@ module.exports = team => {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 jumbotron mb-3 team-heading">
-                <h1 class="text-center">My Team</h1>
+            <div class="col-12 jumbotron mb-3 bg-info team-heading">
+                <h1 class="text-center text-white">My Team</h1>
             </div>
         </div>
     </div>

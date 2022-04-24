@@ -1,244 +1,166 @@
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
+const fs = require("fs");
+const manager = new Manager();
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const Engineers = [];
-const Interns = [];
-// create the team
-const generateTeam = (team) => {
-  // create the manager html
-  const generateManager = (manager) => {
-    return `
-        <div class="card employee-card">
-        <div class="card-header">
-            <h2 class="card-title">${manager.getName()}</h2>
-            <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.getRole()}</h3>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item">ID: ${manager.getId()}</li>
-                <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
-                <li class="list-group-item">Office number: ${manager.getOfficeNumber()}</li>
-            </ul>
-        </div>
-    </div>
-        `;
-  };
+const engineer = [];
+const intern = [];
+const teamBuilt = require("./util/generateHtml")((manager, engineer, intern));
 
-  // create the html for engineers
-  const generateEngineer = (engineer) => {
-    return `
-        <div class="card employee-card">
-    <div class="card-header">
-        <h2 class="card-title">${engineer.getName()}</h2>
-        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${engineer.getRole()}</h3>
-    </div>
-    <div class="card-body">
-        <ul class="list-group">
-            <li class="list-group-item">ID: ${engineer.getId()}</li>
-            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
-            <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGithub()}" target="_blank" rel="noopener noreferrer">${engineer.getGithub()}</a></li>
-        </ul>
-    </div>
-</div>
-        `;
-  };
+function askQuestion() {
+  inquirer
+    //prompted to enter the team manager’s name, employee ID, email address, and office number
+    .prompt([
+      {
+        type: "input",
+        name: "managerName",
+        message: "what is your Manager's name?",
+      },
+      {
+        type: "input",
+        name: "managerID",
+        message: "what is your Manager's ID",
+      },
 
-  // create the html for interns
-  const generateIntern = (intern) => {
-    return `
-        <div class="card employee-card">
-    <div class="card-header">
-        <h2 class="card-title">${intern.getName()}</h2>
-        <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>${intern.getRole()}</h3>
-    </div>
-    <div class="card-body">
-        <ul class="list-group">
-            <li class="list-group-item">ID: ${intern.getId()}</li>
-            <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
-            <li class="list-group-item">School: ${intern.getSchool()}</li>
-        </ul>
-    </div>
-</div>
-        `;
-  };
-
-  const html = [];
-
-  html.push(
-    team
-      .filter((employee) => employee.getRole() === "Manager")
-      .map((manager) => generateManager(manager))
-  );
-  html.push(
-    team
-      .filter((employee) => employee.getRole() === "Engineer")
-      .map((engineer) => generateEngineer(engineer))
-      .join("")
-  );
-  html.push(
-    team
-      .filter((employee) => employee.getRole() === "Intern")
-      .map((intern) => generateIntern(intern))
-      .join("")
-  );
-
-  return html.join("");
-};
-
-// export function to generate entire page
-module.exports = (team) => {
-  return `
-    <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>My Team</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/c502137733.js"></script>
-</head>
-
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 jumbotron mb-3 team-heading">
-                <h1 class="text-center">My Team</h1>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="team-area col-12 d-flex justify-content-center">
-                ${generateTeam(team)}
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-    `;
-};
-function askQuestion(){
-    inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "managerName",
-      message: "what is your Manager's name?",
-    },
-
-    { type: "input", name: "managerID", message: "what is your Manager's ID" },
-
-    {
-      type: "input",
-      name: "managerEmail",
-      message: "what is your Manager's email",
-    },
-    {
-      type: "input",
-      name: "managerOffice",
-      message: "what is your Manager's office number",
-    },
-    {
-      type: "list",
-      message: "Which type of team member would you like to add",
-      name: "typeOfTeam",
-      choices: ["engineer", "intern", "finish building"],
-    },
-  ])
-  .then((data) => {
-      addManager();
-    console.log(data);
-    switch (data.typeOfTeam) {
-      case "engineer":
-        addEngineer();
-        break;
-      case "intern":
-        addIntern();
-        break;
-      default:
-        console.log("Your team is built")
-        break;
-    }
-})
-function addManager(){
-    
+      {
+        type: "input",
+        name: "managerEmail",
+        message: "what is your Manager's email",
+      },
+      {
+        type: "input",
+        name: "managerOffice",
+        message: "what is your Manager's office number",
+      },
+      {
+        type: "list",
+        message: "Which type of team member would you like to add",
+        name: "typeOfTeam",
+        choices: ["engineer", "intern", "finish building"],
+      },
+    ])
+    .then((data) => {
+      manager.name = data.managerName;
+      manager.id = data.managerID;
+      manager.email = data.managerEmail;
+      manager.officeNumber = data.managerOffice;
+      //Could I use decontruct ??
+      console.log(manager);
+      switch (data.typeOfTeam) {
+        case "engineer":
+          addEngineer();
+          break;
+        case "intern":
+          addIntern();
+          break;
+        default:
+          console.log("Your team is built");
+          break;
+      }
+    });
 }
+//How to Dry moreTeam
+function moreTeam() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "Which type of team member would you like to add",
+        name: "typeOfTeam",
+        choices: ["engineer", "intern", "finish building"],
+      },
+    ])
+    .then((data) => {
+      switch (data.typeOfTeam) {
+        case "engineer":
+          addEngineer();
+          break;
+        case "intern":
+          addIntern();
+          break;
+        default:
+          console.log("Your team is built");
+          break;
+      }
+    });
+}
+
 function addEngineer() {
-    inquirer.prompt({
-        name: "name",
-        message: "What is your name?",
-        type: "input"
-    }).then(({ name }) => {
-        console.log(name);
-        const me = new Trainer(name);
-        trainers.push(me)
-        console.log(trainers);
-        askQuestion();
-    })
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "engineerName",
+        message: "what is your engineer's name?",
+      },
+      {
+        type: "input",
+        name: "engineerID",
+        message: "what is your engineer's ID",
+      },
+      {
+        type: "input",
+        name: "engineerEmail",
+        message: "what is your engineer's email",
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "what is your github username",
+      },
+    ])
+    .then((answers) => {
+      const engineerOne = new Engineer(
+        answers.engineerName,
+        answers.engineerID,
+        answers.engineerEmail,
+        answers.github
+      );
+      engineer.push(engineerOne);
+      console.log(engineer);
+      moreTeam();
+    });
 }
-// console.log("linked!");
-// const inquirer = require("inquirer");
-// const fs = require("fs");
+function addIntern() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "internName",
+        message: "what is your intern's name?",
+      },
+      {
+        type: "input",
+        name: "internID",
+        message: "what is your intern's ID",
+      },
+      {
+        type: "input",
+        name: "internEmail",
+        message: "what is your intern's email",
+      },
+      {
+        type: "input",
+        name: "school",
+        message: "what is your school",
+      },
+    ])
+    .then((answers) => {
+      const internOne = new Intern(
+        answers.internName,
+        answers.internID,
+        answers.internEmail,
+        answers.school
+      );
+      intern.push(internOne);
+      console.log(intern);
+      moreTeam();
+    });
+}
+askQuestion();
+fs.writeFile("index.html", teamBuilt, (err) =>
+  err ? console.log(err) : console.log("Success")
+);
+
 // const { exit } = require("process");
-// //prompted to enter the team manager’s name, employee ID, email address, and office number
-// inquirer
-//   .prompt([
-//     {
-//       type: "input",
-//       name: "managerName",
-//       message: "what is your Manager's name?",
-//     },
-
-//     { type: "input", name: "managerID", message: "what is your Manager's ID" },
-
-//     {
-//       type: "input",
-//       name: "managerEmail",
-//       message: "what is your Manager's email",
-//     },
-//     {
-//       type: "input",
-//       name: "managerOffice",
-//       message: "what is your Manager's office number",
-//     },
-//     {
-//       type: "choices",
-//       name: "contribution",
-//       message: "what is your contribution guidelines?",
-//     },
-//     {
-//       type: "list",
-//       message: "Which type of team member would you like to add",
-//       name: "typeOfTeam",
-//       choices: ["engineer", "intern", "finish building"],
-//     },
-//   ])
-//   .then((data) => {
-//     console.log(data);
-//     // switch (data.typeOfTeam) {
-//     //   case "engineer":
-//     //     addEngineer();
-//     //     break;
-//     //   case "intern":
-//     //     addIntern();
-//     //     break;
-//     //   case "finish building":
-//     //    exit();
-//     //     break;
-//     //   default:
-//     //     break;
-//     // }
-
-//     const content = `
-// ${data.managerEmail}
-// `;
-
-//     fs.writeFile("./dist/index.html", content, (err) =>
-//       err ? console.log(err) : console.log("Success")
-//     );
-//   });
