@@ -6,7 +6,8 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const engineer = [];
 const intern = [];
-const teamBuilt = require("./util/generateHtml")((manager, engineer, intern));
+const allEmployees = [];
+const teamBuilt = require("./util/generateHtml.js");
 
 function askQuestion() {
   inquirer
@@ -45,6 +46,7 @@ function askQuestion() {
       manager.id = data.managerID;
       manager.email = data.managerEmail;
       manager.officeNumber = data.managerOffice;
+      allEmployees.push(manager);
       //Could I use decontruct ??
       console.log(manager);
       switch (data.typeOfTeam) {
@@ -80,7 +82,7 @@ function moreTeam() {
           addIntern();
           break;
         default:
-          console.log("Your team is built");
+          buildHtml();
           break;
       }
     });
@@ -117,8 +119,8 @@ function addEngineer() {
         answers.engineerEmail,
         answers.github
       );
-      engineer.push(engineerOne);
-      console.log(engineer);
+      allEmployees.push(engineerOne);
+      //   console.log(engineer);
       moreTeam();
     });
 }
@@ -153,14 +155,16 @@ function addIntern() {
         answers.internEmail,
         answers.school
       );
-      intern.push(internOne);
-      console.log(intern);
+      allEmployees.push(internOne);
+      //   console.log(intern);
       moreTeam();
     });
 }
 askQuestion();
-fs.writeFile("index.html", teamBuilt, (err) =>
-  err ? console.log(err) : console.log("Success")
-);
+function buildHtml() {
+  fs.writeFile("index.html", teamBuilt(allEmployees), (err) =>
+    err ? console.log(err) : console.log("Success")
+  );
+}
 
 // const { exit } = require("process");

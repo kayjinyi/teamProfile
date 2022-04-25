@@ -1,4 +1,17 @@
-## teamProfThe managerle
+# teamProfile
+
+## Table of Contents
+
+- [teamProfile](#teamprofile)
+  - [Table of Contents](#table-of-contents)
+  - [Descripttion](#descripttion)
+  - [Installation](#installation)
+  - [Mock-Up](#mock-up)
+  - [Questions](#questions)
+
+---
+
+## Descripttion
 
 The manager WANTs to generate a webpage that displays my team's basic info. SO THAT the manager has quick access to their emails and GitHub profiles
 
@@ -50,4 +63,14 @@ node index.js
 
 The following image shows a mock-up of the generated HTML’s appearance and functionality:
 
-![HTML webpage titled “My Team” features five boxes listing employee names, titles, and other key info.](./Assets/10-object-oriented-programming-homework-demo.png)
+![HTML webpage titled “My Team” features five boxes listing employee names, titles, and other key info.](./Assets/computerDemo.png)
+![Mobile titled “My Team” features five boxes listing employee names, titles, and other key info.](./Assets/mobileDemo.png)
+![Tested](./Assets/Screen%20Shot%202022-04-24%20at%203.05.34%20AM.png)
+
+---
+
+## Questions
+
+Feel free to reach out via Github or email with any questions. <br>
+[Github](https://github.com/kayjinyi) <br>
+[email](mailto:kayjinyi@gmail.com)
