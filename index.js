@@ -47,7 +47,6 @@ function askQuestion() {
       manager.email = data.managerEmail;
       manager.officeNumber = data.managerOffice;
       allEmployees.push(manager);
-      //Could I use decontruct ??
       console.log(manager);
       switch (data.typeOfTeam) {
         case "engineer":
@@ -62,7 +61,6 @@ function askQuestion() {
       }
     });
 }
-//How to Dry moreTeam
 function moreTeam() {
   inquirer
     .prompt([
