@@ -8,6 +8,7 @@
   - [Installation](#installation)
   - [Mock-Up](#mock-up)
   - [Questions](#questions)
+  - [walkthrough video](#walkthrough-video)
 
 ---
 
@@ -74,3 +75,9 @@ The following image shows a mock-up of the generated HTML’s appearance and fun
 Feel free to reach out via Github or email with any questions. <br>
 [Github](https://github.com/kayjinyi) <br>
 [email](mailto:kayjinyi@gmail.com)
+
+---
+
+## walkthrough video
+
+[walkthrough video ](https://watch.screencastify.com/v/b2FctsKyAie36lVqYXpk) <br>
