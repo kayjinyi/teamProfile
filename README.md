@@ -14,7 +14,7 @@
 
 ## Descripttion
 
-The manager WANTs to generate a webpage that displays my team's basic info. SO THAT the manager has quick access to their emails and GitHub profiles
+The manager WANTs to generate a webpage that displays the team's basic info. SO THAT the manager has quick access to their emails and GitHub profiles
 
 GIVEN a command-line application that accepts user input
 
